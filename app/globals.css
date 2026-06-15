@@ -1,26 +1,101 @@
 @import "tailwindcss";
 
+/* ─── Light theme (default / :root) ─── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --np-bg: #f0eeff;
+  --np-surface: #ffffff;
+  --np-surface-2: #ede8ff;
+  --np-border: #d5ccf5;
+  --np-purple: #7c5cbf;
+  --np-purple-light: #5a3fa0;
+  --np-purple-dim: rgba(124,92,191,0.12);
+  --np-text: #1a1240;
+  --np-text-muted: #6b5a9a;
+  --np-text-dim: #9b8ac0;
+  --np-row-hover: #ece7ff;
+  --np-header-bg: linear-gradient(135deg, #faf8ff 0%, #ede8ff 60%, #f5f2ff 100%);
+  --np-header-glow: rgba(124,92,191,0.10);
+  --np-select-bg: #ffffff;
+
+  /* Score badges */
+  --np-score-hi-bg: #dcfce7; --np-score-hi-text: #15803d; --np-score-hi-ring: #86efac;
+  --np-score-md-bg: #fff7ed; --np-score-md-text: #c2410c; --np-score-md-ring: #fdba74;
+  --np-score-lo-bg: #fef2f2; --np-score-lo-text: #dc2626; --np-score-lo-ring: #fca5a5;
+
+  /* Status badges */
+  --np-s0-bg: #f0eeff; --np-s0-text: #6b5a9a; --np-s0-ring: #d5ccf5;
+  --np-s1-bg: #eff6ff; --np-s1-text: #1d4ed8; --np-s1-ring: #bfdbfe;
+  --np-s2-bg: #fffbeb; --np-s2-text: #b45309; --np-s2-ring: #fde68a;
+  --np-s3-bg: #f0fdf4; --np-s3-text: #15803d; --np-s3-ring: #bbf7d0;
+
+  /* Bulb */
+  --np-wire: #b0a0d8;
+  --np-bulb-glow: rgba(251,191,36,0.45);
+}
+
+/* ─── Dark theme ─── */
+[data-theme="dark"] {
+  --np-bg: #09091e;
+  --np-surface: #111130;
+  --np-surface-2: #1a1a40;
+  --np-border: #252550;
+  --np-purple: #7c5cbf;
+  --np-purple-light: #9d80d8;
+  --np-purple-dim: rgba(124,92,191,0.18);
+  --np-text: #ffffff;
+  --np-text-muted: #8888aa;
+  --np-text-dim: #555577;
+  --np-row-hover: rgba(20,20,58,0.9);
+  --np-header-bg: linear-gradient(135deg, #0d0c22 0%, #13112e 60%, #0f0e25 100%);
+  --np-header-glow: rgba(124,92,191,0.22);
+  --np-select-bg: #111130;
+
+  /* Score badges */
+  --np-score-hi-bg: #0d2b1a; --np-score-hi-text: #4ade80; --np-score-hi-ring: #16532e;
+  --np-score-md-bg: #2b1e08; --np-score-md-text: #fb923c; --np-score-md-ring: #7c4a10;
+  --np-score-lo-bg: #2b0d0d; --np-score-lo-text: #f87171; --np-score-lo-ring: #7c1d1d;
+
+  /* Status badges */
+  --np-s0-bg: #1a1a2e; --np-s0-text: #8888aa; --np-s0-ring: #2a2a50;
+  --np-s1-bg: #0d1a35; --np-s1-text: #60a5fa; --np-s1-ring: #1e3a6e;
+  --np-s2-bg: #2a1a06; --np-s2-text: #fbbf24; --np-s2-ring: #6b4500;
+  --np-s3-bg: #0a2a18; --np-s3-text: #34d399; --np-s3-ring: #065f3a;
+
+  /* Bulb */
+  --np-wire: #333355;
+  --np-bulb-glow: transparent;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--np-bg);
+  --color-foreground: var(--np-text);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  background: var(--np-bg);
+  color: var(--np-text);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ─── Swing animation ─── */
+@keyframes swing {
+  0%   { transform: rotate(0deg); }
+  18%  { transform: rotate(18deg); }
+  36%  { transform: rotate(-14deg); }
+  54%  { transform: rotate(10deg); }
+  70%  { transform: rotate(-6deg); }
+  84%  { transform: rotate(3deg); }
+  100% { transform: rotate(0deg); }
 }
+.bulb-swing {
+  animation: swing 0.75s cubic-bezier(0.36,0.07,0.19,0.97);
+  transform-origin: top center;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--np-surface); }
+::-webkit-scrollbar-thumb { background: var(--np-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--np-purple); }

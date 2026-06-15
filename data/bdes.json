@@ -1,0 +1,246 @@
+[
+  {
+    "id": "bde-001",
+    "name": "BDE KEDGE",
+    "school": "KEDGE Business School",
+    "city": "Bordeaux",
+    "instagram": "@bde_kedge_bordeaux",
+    "email": "bde@kedge.edu",
+    "phone": "+33 5 56 84 55 55",
+    "website": "https://bde.kedge.edu",
+    "followers": 6800,
+    "lastEventsDetected": [
+      { "title": "Gala KEDGE 2024", "date": "2024-03-22" },
+      { "title": "Beach Party Arcachon", "date": "2024-02-10" },
+      { "title": "Soirée Ski KEDGE", "date": "2024-01-18" }
+    ],
+    "score": 91,
+    "status": "en discussion"
+  },
+  {
+    "id": "bde-002",
+    "name": "BDE ENSEIRB-MATMECA",
+    "school": "ENSEIRB-MATMECA",
+    "city": "Bordeaux",
+    "instagram": "@bde_enseirb",
+    "email": "bde@enseirb-matmeca.fr",
+    "phone": "+33 5 57 00 10 10",
+    "website": "https://bde.enseirb-matmeca.fr",
+    "followers": 3200,
+    "lastEventsDetected": [
+      { "title": "Soirée Intégration ENSEIRB", "date": "2024-09-14" },
+      { "title": "Nuit de l'Info", "date": "2024-12-07" }
+    ],
+    "score": 78,
+    "status": "contacté"
+  },
+  {
+    "id": "bde-003",
+    "name": "BDE Sciences Po Bordeaux",
+    "school": "Sciences Po Bordeaux",
+    "city": "Bordeaux",
+    "instagram": "@bde_sciencespo_bdx",
+    "email": "bde@sciencespo-bordeaux.fr",
+    "phone": "+33 5 56 84 42 52",
+    "website": "https://www.sciencespo-bordeaux.fr",
+    "followers": 4100,
+    "lastEventsDetected": [
+      { "title": "Gala Sciences Po", "date": "2024-04-05" },
+      { "title": "Soirée Débat & Danse", "date": "2024-02-28" }
+    ],
+    "score": 83,
+    "status": "partenariat signé"
+  },
+  {
+    "id": "bde-004",
+    "name": "BDE Bordeaux INP",
+    "school": "Bordeaux INP",
+    "city": "Bordeaux",
+    "instagram": "@bde_bordeaux_inp",
+    "email": "bde@bordeaux-inp.fr",
+    "phone": "+33 5 56 84 68 00",
+    "website": "https://www.bordeaux-inp.fr",
+    "followers": 2600,
+    "lastEventsDetected": [
+      { "title": "Soirée INP Unifiée", "date": "2024-11-15" }
+    ],
+    "score": 62,
+    "status": "contacté"
+  },
+  {
+    "id": "bde-005",
+    "name": "BDE INSEEC Bordeaux",
+    "school": "INSEEC Business School",
+    "city": "Bordeaux",
+    "instagram": "@bde_inseec_bdx",
+    "email": "bde@inseec.com",
+    "phone": "+33 5 56 99 54 54",
+    "website": "https://www.inseec.com",
+    "followers": 3800,
+    "lastEventsDetected": [
+      { "title": "Soirée Mousse INSEEC", "date": "2024-05-17" },
+      { "title": "Gala Champêtre", "date": "2024-06-08" },
+      { "title": "Halloween INSEEC", "date": "2024-10-31" }
+    ],
+    "score": 74,
+    "status": "contacté"
+  },
+  {
+    "id": "bde-006",
+    "name": "BDE Bordeaux Ynov Campus",
+    "school": "Ynov Campus Bordeaux",
+    "city": "Bordeaux",
+    "instagram": "@bde_ynov_bordeaux",
+    "email": "bde@bordeaux.ynov.com",
+    "followers": 2100,
+    "lastEventsDetected": [
+      { "title": "Game Night Ynov", "date": "2024-03-08" }
+    ],
+    "score": 48,
+    "status": "à contacter"
+  },
+  {
+    "id": "bde-007",
+    "name": "BDE ESTIA",
+    "school": "ESTIA",
+    "city": "Bidart",
+    "instagram": "@bde_estia",
+    "email": "bde@estia.fr",
+    "phone": "+33 5 59 43 84 00",
+    "website": "https://www.estia.fr",
+    "followers": 1400,
+    "lastEventsDetected": [
+      { "title": "Soirée Basque ESTIA", "date": "2024-04-20" }
+    ],
+    "score": 35,
+    "status": "à contacter"
+  },
+  {
+    "id": "bde-008",
+    "name": "BDE Université de Bordeaux",
+    "school": "Université de Bordeaux",
+    "city": "Bordeaux",
+    "instagram": "@bde_univ_bordeaux",
+    "email": "bde@u-bordeaux.fr",
+    "phone": "+33 5 40 00 60 00",
+    "website": "https://www.u-bordeaux.fr",
+    "followers": 7500,
+    "lastEventsDetected": [
+      { "title": "Soirée BDE Campus", "date": "2024-10-18" },
+      { "title": "Fête de la Musique Bordeaux", "date": "2024-06-21" },
+      { "title": "Carnaval Étudiant", "date": "2024-03-14" }
+    ],
+    "score": 88,
+    "status": "à contacter"
+  },
+  {
+    "id": "bde-009",
+    "name": "BDE IFAG Bordeaux",
+    "school": "IFAG Bordeaux",
+    "city": "Bordeaux",
+    "instagram": "@bde_ifag_bordeaux",
+    "email": "bde@ifag.fr",
+    "followers": 980,
+    "lastEventsDetected": [],
+    "score": 22,
+    "status": "à contacter"
+  },
+  {
+    "id": "bde-010",
+    "name": "BDE EM Toulouse",
+    "school": "TBS Education",
+    "city": "Toulouse",
+    "instagram": "@bde_tbs_toulouse",
+    "email": "bde@tbs-education.fr",
+    "phone": "+33 5 61 29 49 49",
+    "website": "https://www.tbs-education.fr",
+    "followers": 5200,
+    "lastEventsDetected": [
+      { "title": "Gala TBS 2024", "date": "2024-04-12" },
+      { "title": "Soirée Capitole", "date": "2024-11-22" }
+    ],
+    "score": 81,
+    "status": "à contacter"
+  },
+  {
+    "id": "bde-011",
+    "name": "BDE ISEG Bordeaux",
+    "school": "ISEG Marketing & Business School",
+    "city": "Bordeaux",
+    "instagram": "@bde_iseg_bdx",
+    "email": "bde@iseg.fr",
+    "followers": 1650,
+    "lastEventsDetected": [
+      { "title": "Soirée Networking ISEG", "date": "2024-02-16" }
+    ],
+    "score": 41,
+    "status": "à contacter"
+  },
+  {
+    "id": "bde-012",
+    "name": "BDE Bordeaux Sciences Agro",
+    "school": "Bordeaux Sciences Agro",
+    "city": "Bordeaux",
+    "instagram": "@bde_agro_bdx",
+    "email": "bde@agro-bordeaux.fr",
+    "phone": "+33 5 57 35 07 50",
+    "website": "https://www.agro-bordeaux.fr",
+    "followers": 1100,
+    "lastEventsDetected": [
+      { "title": "Soirée Vignes & Vins", "date": "2024-10-05" }
+    ],
+    "score": 29,
+    "status": "à contacter"
+  },
+  {
+    "id": "bde-013",
+    "name": "BDE EIGSI La Rochelle",
+    "school": "EIGSI La Rochelle",
+    "city": "La Rochelle",
+    "instagram": "@bde_eigsi",
+    "email": "bde@eigsi.fr",
+    "phone": "+33 5 46 45 82 20",
+    "website": "https://www.eigsi.fr",
+    "followers": 1800,
+    "lastEventsDetected": [
+      { "title": "Soirée Port La Rochelle", "date": "2024-07-13" },
+      { "title": "Soirée Intégration EIGSI", "date": "2024-09-06" }
+    ],
+    "score": 55,
+    "status": "contacté"
+  },
+  {
+    "id": "bde-014",
+    "name": "BDE Excelia La Rochelle",
+    "school": "Excelia Business School",
+    "city": "La Rochelle",
+    "instagram": "@bde_excelia",
+    "email": "bde@excelia-group.com",
+    "phone": "+33 5 46 51 77 00",
+    "website": "https://www.excelia-group.com",
+    "followers": 2900,
+    "lastEventsDetected": [
+      { "title": "Gala Excelia 2024", "date": "2024-05-03" },
+      { "title": "Soirée Surf & Party", "date": "2024-08-24" }
+    ],
+    "score": 69,
+    "status": "à contacter"
+  },
+  {
+    "id": "bde-015",
+    "name": "BDE IMT Atlantique Bordeaux",
+    "school": "IMT Atlantique",
+    "city": "Bordeaux",
+    "instagram": "@bde_imt_atlantique_bdx",
+    "email": "bde@imt-atlantique.fr",
+    "phone": "+33 2 51 85 81 00",
+    "website": "https://www.imt-atlantique.fr",
+    "followers": 2350,
+    "lastEventsDetected": [
+      { "title": "Soirée Ingé IMT", "date": "2024-11-08" },
+      { "title": "Week-end Cohésion", "date": "2024-09-20" }
+    ],
+    "score": 57,
+    "status": "à contacter"
+  }
+]
