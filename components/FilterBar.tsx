@@ -15,6 +15,8 @@ interface FilterBarProps {
   selectedCount: number;
   onExport: () => void;
   onNewBde: () => void;
+  onRefresh: () => void;
+  refreshing: boolean;
 }
 
 const inputStyle: React.CSSProperties = {
@@ -36,6 +38,8 @@ export function FilterBar({
   selectedCount,
   onExport,
   onNewBde,
+  onRefresh,
+  refreshing,
 }: FilterBarProps) {
   const activeFilters = [filters.city, filters.school, filters.search].filter(Boolean).length;
 
@@ -100,6 +104,25 @@ export function FilterBar({
           </>
         )}
       </span>
+
+      <button
+        onClick={onRefresh}
+        disabled={refreshing}
+        title="Rafraîchir les données"
+        className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg font-medium transition-opacity hover:opacity-80 disabled:opacity-50"
+        style={{ border: "1px solid var(--np-border)", color: "var(--np-text-muted)", background: "transparent" }}
+        onMouseEnter={(e) => !e.currentTarget.disabled && (e.currentTarget.style.background = "var(--np-surface-2)")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+      >
+        <svg
+          className="w-3.5 h-3.5"
+          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+          style={{ transition: "transform 0.5s", transform: refreshing ? "rotate(360deg)" : "none" }}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        {refreshing ? "…" : "Actualiser"}
+      </button>
 
       <button
         onClick={onNewBde}

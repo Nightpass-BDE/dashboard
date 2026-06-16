@@ -22,6 +22,18 @@ export function BdeDashboard({ initialBdes }: { initialBdes: Bde[] }) {
   const [detailBde, setDetailBde] = useState<Bde | null>(null);
   const [detailEditMode, setDetailEditMode] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
+  async function handleRefresh() {
+    setRefreshing(true);
+    try {
+      const res = await fetch("/api/bdes");
+      const data: Bde[] = await res.json();
+      setBdes(data);
+    } finally {
+      setRefreshing(false);
+    }
+  }
 
   function openDetail(bde: Bde, editMode = false) {
     setDetailBde(bde);
@@ -219,6 +231,8 @@ export function BdeDashboard({ initialBdes }: { initialBdes: Bde[] }) {
         selectedCount={selectedIds.size}
         onExport={handleExport}
         onNewBde={() => setShowForm(true)}
+        onRefresh={handleRefresh}
+        refreshing={refreshing}
       />
 
       {/* Table */}
