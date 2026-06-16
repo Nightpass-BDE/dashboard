@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Bde {
+  id                 String   @id
+  name               String
+  school             String
+  city               String
+  instagram          String?
+  email              String?
+  phone              String?
+  website            String?
+  followers          Int      @default(0)
+  lastEventsDetected Json     @default("[]") @map("last_events_detected")
+  score              Int      @default(0)
+  status             String   @default("à contacter")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@map("bdes")
+}

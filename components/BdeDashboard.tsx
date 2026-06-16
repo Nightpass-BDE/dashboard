@@ -8,6 +8,7 @@ import { FilterBar } from "./FilterBar";
 import { BdeDetail } from "./BdeDetail";
 import { KpiCards } from "./KpiCards";
 import { LightbulbToggle } from "./LightbulbToggle";
+import { BdeForm } from "./BdeForm";
 import { exportToCsv } from "@/lib/export";
 
 export function BdeDashboard({ initialBdes }: { initialBdes: Bde[] }) {
@@ -20,6 +21,7 @@ export function BdeDashboard({ initialBdes }: { initialBdes: Bde[] }) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [detailBde, setDetailBde] = useState<Bde | null>(null);
   const [isDark, setIsDark] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     if (isDark) {
@@ -138,7 +140,7 @@ export function BdeDashboard({ initialBdes }: { initialBdes: Bde[] }) {
             width={126}
             height={34}
             priority
-            style={{ width: 126, height: "auto" }}
+            style={{ height: "auto" }}
           />
 
           {/* Tagline */}
@@ -205,6 +207,7 @@ export function BdeDashboard({ initialBdes }: { initialBdes: Bde[] }) {
         resultCount={filtered.length}
         selectedCount={selectedIds.size}
         onExport={handleExport}
+        onNewBde={() => setShowForm(true)}
       />
 
       {/* Table */}
@@ -223,6 +226,14 @@ export function BdeDashboard({ initialBdes }: { initialBdes: Bde[] }) {
           onStatusChange={handleStatusChange}
         />
       </div>
+
+      {/* Form */}
+      {showForm && (
+        <BdeForm
+          onClose={() => setShowForm(false)}
+          onCreated={(bde) => setBdes((prev) => [bde, ...prev])}
+        />
+      )}
 
       {/* Drawer */}
       <BdeDetail

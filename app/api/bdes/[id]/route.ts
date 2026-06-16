@@ -1,9 +1,25 @@
 import type { NextRequest } from "next/server";
-import fs from "fs/promises";
-import path from "path";
+import { prisma } from "@/lib/db";
 import type { Bde } from "@/lib/types";
 
-const DATA_PATH = path.join(process.cwd(), "data", "bdes.json");
+type PrismaBde = NonNullable<Awaited<ReturnType<typeof prisma.bde.findFirst>>>;
+
+function rowToBde(row: PrismaBde): Bde {
+  return {
+    id: row.id,
+    name: row.name,
+    school: row.school,
+    city: row.city,
+    instagram: row.instagram ?? "",
+    email: row.email ?? "",
+    phone: row.phone ?? undefined,
+    website: row.website ?? undefined,
+    followers: row.followers,
+    lastEventsDetected: row.lastEventsDetected as { title: string; date: string }[],
+    score: row.score,
+    status: row.status as Bde["status"],
+  };
+}
 
 export async function PATCH(
   request: NextRequest,
@@ -12,16 +28,6 @@ export async function PATCH(
   const { id } = await params;
   const body = await request.json();
 
-  const raw = await fs.readFile(DATA_PATH, "utf-8");
-  const bdes: Bde[] = JSON.parse(raw);
-
-  const index = bdes.findIndex((b) => b.id === id);
-  if (index === -1) {
-    return Response.json({ error: "BDE not found" }, { status: 404 });
-  }
-
-  bdes[index] = { ...bdes[index], ...body };
-  await fs.writeFile(DATA_PATH, JSON.stringify(bdes, null, 2), "utf-8");
-
-  return Response.json(bdes[index]);
+  const row = await prisma.bde.update({ where: { id }, data: body });
+  return Response.json(rowToBde(row));
 }
