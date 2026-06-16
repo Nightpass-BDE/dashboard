@@ -16,6 +16,8 @@ function rowToBde(row: NonNullable<PrismaBde>): Bde {
     website: row.website ?? undefined,
     followers: row.followers,
     lastEventsDetected: row.lastEventsDetected as { title: string; date: string }[],
+    instagramActive: row.instagramActive,
+    lastPostDate: row.lastPostDate?.toISOString().split("T")[0] ?? undefined,
     score: row.score,
     status: row.status as Bde["status"],
   };

@@ -67,7 +67,7 @@ export function BdeTable({
     whiteSpace: "nowrap",
     borderBottom: "1px solid var(--np-border)",
     background: "var(--np-surface)",
-    transition: "color 0.15s, background 0.3s",
+    transition: "none",
   };
 
   const td: React.CSSProperties = {

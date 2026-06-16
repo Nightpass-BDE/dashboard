@@ -191,14 +191,35 @@ export function BdeDetail({ bde, onClose, onStatusChange, onBdeUpdate, startInEd
 
         {/* Body */}
         <div className="flex-1 overflow-y-auto p-5 space-y-5">
-          {/* Score + status */}
-          <div className="flex items-center gap-3">
+          {/* Score + status + instagram activity */}
+          <div className="flex items-center gap-3 flex-wrap">
             <div className="flex items-center gap-2">
               <span className="text-xs" style={{ color: "var(--np-text-muted)" }}>Score</span>
               <ScoreBadge score={bde.score} />
             </div>
             <div style={{ width: 1, height: 16, background: "var(--np-border)" }} />
             <StatusBadge status={bde.status} />
+            <div style={{ width: 1, height: 16, background: "var(--np-border)" }} />
+            <div className="flex items-center gap-1.5">
+              <span
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
+                  background: bde.instagramActive ? "#22c55e" : "#6b6b80",
+                  display: "inline-block",
+                  flexShrink: 0,
+                }}
+              />
+              <span className="text-xs" style={{ color: bde.instagramActive ? "#22c55e" : "var(--np-text-muted)" }}>
+                {bde.instagramActive ? "Actif" : "Inactif"}
+              </span>
+              {bde.lastPostDate && (
+                <span className="text-xs" style={{ color: "var(--np-text-dim)" }}>
+                  · dernier post {bde.lastPostDate}
+                </span>
+              )}
+            </div>
           </div>
 
           {/* Info grid */}
