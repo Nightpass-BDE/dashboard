@@ -157,7 +157,12 @@ export function BdeTable({
                   />
                 </td>
 
-                <td style={{ ...td, fontWeight: 500, cursor: "pointer" }} onClick={() => onRowClick(bde)}>
+                <td
+                  style={{ ...td, fontWeight: 500, cursor: "pointer", maxWidth: 200 }}
+                  className="truncate"
+                  title={bde.name}
+                  onClick={() => onRowClick(bde)}
+                >
                   {bde.name}
                 </td>
 
