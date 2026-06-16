@@ -14,6 +14,7 @@ interface BdeTableProps {
   onSelectAll: (ids: string[]) => void;
   onSelectOne: (id: string) => void;
   onRowClick: (bde: Bde) => void;
+  onEditClick: (bde: Bde) => void;
   onStatusChange: (id: string, status: BdeStatus) => void;
 }
 
@@ -48,7 +49,7 @@ const COL_LABEL: Record<string, string> = { name: "Nom", school: "École", city:
 export function BdeTable({
   bdes, sort, onSort,
   selectedIds, onSelectAll, onSelectOne,
-  onRowClick, onStatusChange,
+  onRowClick, onEditClick, onStatusChange,
 }: BdeTableProps) {
   const allSelected = bdes.length > 0 && bdes.every((b) => selectedIds.has(b.id));
   const someSelected = bdes.some((b) => selectedIds.has(b.id));
@@ -206,15 +207,27 @@ export function BdeTable({
                   </select>
                 </td>
 
-                <td style={{ ...td, textAlign: "center" }}>
-                  <button
-                    onClick={() => onRowClick(bde)}
-                    style={{ color: "var(--np-text-dim)", transition: "color 0.15s", background: "none", border: "none", cursor: "pointer" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = "var(--np-purple-light)")}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "var(--np-text-dim)")}
-                  >
-                    →
-                  </button>
+                <td style={{ ...td, textAlign: "center" }} onClick={(e) => e.stopPropagation()}>
+                  <div className="flex items-center justify-center gap-1">
+                    <button
+                      title="Modifier"
+                      onClick={() => onEditClick(bde)}
+                      style={{ background: "none", border: "none", cursor: "pointer", padding: "2px 4px", opacity: 0.5, transition: "opacity 0.15s" }}
+                      onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+                      onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
+                    >
+                      <img src="/ecrivez.png" alt="Modifier" width={14} height={14} style={{ display: "block" }} />
+                    </button>
+                    <button
+                      title="Voir"
+                      onClick={() => onRowClick(bde)}
+                      style={{ color: "var(--np-text-dim)", transition: "color 0.15s", background: "none", border: "none", cursor: "pointer", padding: "2px 4px" }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = "var(--np-purple-light)")}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = "var(--np-text-dim)")}
+                    >
+                      →
+                    </button>
+                  </div>
                 </td>
               </tr>
             );

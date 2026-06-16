@@ -20,7 +20,13 @@ export function BdeDashboard({ initialBdes }: { initialBdes: Bde[] }) {
   });
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [detailBde, setDetailBde] = useState<Bde | null>(null);
+  const [detailEditMode, setDetailEditMode] = useState(false);
   const [isDark, setIsDark] = useState(false);
+
+  function openDetail(bde: Bde, editMode = false) {
+    setDetailBde(bde);
+    setDetailEditMode(editMode);
+  }
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
@@ -86,6 +92,11 @@ export function BdeDashboard({ initialBdes }: { initialBdes: Bde[] }) {
       else next.add(id);
       return next;
     });
+  }
+
+  function handleBdeUpdate(updated: Bde) {
+    setBdes((prev) => prev.map((b) => (b.id === updated.id ? updated : b)));
+    setDetailBde(updated);
   }
 
   async function handleStatusChange(id: string, status: BdeStatus) {
@@ -222,7 +233,8 @@ export function BdeDashboard({ initialBdes }: { initialBdes: Bde[] }) {
           selectedIds={selectedIds}
           onSelectAll={handleSelectAll}
           onSelectOne={handleSelectOne}
-          onRowClick={setDetailBde}
+          onRowClick={(bde) => openDetail(bde)}
+          onEditClick={(bde) => openDetail(bde, true)}
           onStatusChange={handleStatusChange}
         />
       </div>
@@ -238,8 +250,10 @@ export function BdeDashboard({ initialBdes }: { initialBdes: Bde[] }) {
       {/* Drawer */}
       <BdeDetail
         bde={detailBde}
-        onClose={() => setDetailBde(null)}
+        onClose={() => { setDetailBde(null); setDetailEditMode(false); }}
         onStatusChange={handleStatusChange}
+        onBdeUpdate={handleBdeUpdate}
+        startInEditMode={detailEditMode}
       />
     </div>
   );

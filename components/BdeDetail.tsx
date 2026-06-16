@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import type { Bde, BdeStatus } from "@/lib/types";
 import { ScoreBadge } from "./ScoreBadge";
 import { StatusBadge } from "./StatusBadge";
@@ -8,14 +9,103 @@ interface BdeDetailProps {
   bde: Bde | null;
   onClose: () => void;
   onStatusChange: (id: string, status: BdeStatus) => void;
+  onBdeUpdate: (bde: Bde) => void;
+  startInEditMode?: boolean;
 }
 
-export function BdeDetail({ bde, onClose, onStatusChange }: BdeDetailProps) {
-  if (!bde) return null;
+type DraftFields = {
+  name: string;
+  school: string;
+  city: string;
+  email: string;
+  phone: string;
+  instagram: string;
+  website: string;
+};
+
+const inputStyle: React.CSSProperties = {
+  width: "100%",
+  background: "var(--np-surface-2)",
+  border: "1px solid var(--np-border)",
+  color: "var(--np-text)",
+  borderRadius: "8px",
+  padding: "6px 10px",
+  fontSize: "13px",
+  outline: "none",
+  transition: "border-color 0.2s",
+};
+
+export function BdeDetail({ bde, onClose, onStatusChange, onBdeUpdate, startInEditMode }: BdeDetailProps) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState<DraftFields | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (bde) {
+      setEditing(!!startInEditMode);
+      setDraft({
+        name: bde.name,
+        school: bde.school,
+        city: bde.city,
+        email: bde.email ?? "",
+        phone: bde.phone ?? "",
+        instagram: bde.instagram ?? "",
+        website: bde.website ?? "",
+      });
+    }
+  }, [bde?.id, startInEditMode]);
+
+  if (!bde || !draft) return null;
 
   const instagramUrl = bde.instagram.startsWith("http")
     ? bde.instagram
     : `https://instagram.com/${bde.instagram.replace(/^@/, "")}`;
+
+  function set(key: keyof DraftFields, value: string) {
+    setDraft((prev) => prev ? { ...prev, [key]: value } : prev);
+  }
+
+  function cancelEdit() {
+    if (!bde) return;
+    setDraft({
+      name: bde.name,
+      school: bde.school,
+      city: bde.city,
+      email: bde.email ?? "",
+      phone: bde.phone ?? "",
+      instagram: bde.instagram ?? "",
+      website: bde.website ?? "",
+    });
+    setEditing(false);
+  }
+
+  async function saveEdit() {
+    if (!bde || !draft) return;
+    setSaving(true);
+    try {
+      const res = await fetch(`/api/bdes/${bde.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: draft.name,
+          school: draft.school,
+          city: draft.city,
+          email: draft.email || null,
+          phone: draft.phone || null,
+          instagram: draft.instagram || null,
+          website: draft.website || null,
+        }),
+      });
+      if (!res.ok) throw new Error();
+      const updated: Bde = await res.json();
+      onBdeUpdate(updated);
+      setEditing(false);
+    } catch {
+      // keep editing open on error
+    } finally {
+      setSaving(false);
+    }
+  }
 
   return (
     <>
@@ -38,29 +128,65 @@ export function BdeDetail({ bde, onClose, onStatusChange }: BdeDetailProps) {
           className="flex items-start justify-between p-5 shrink-0"
           style={{ borderBottom: "1px solid var(--np-border)" }}
         >
-          <div>
-            <h2 className="text-base font-semibold" style={{ color: "var(--np-text)" }}>{bde.name}</h2>
-            <p className="text-sm mt-0.5" style={{ color: "var(--np-text-muted)" }}>
-              {bde.school}
-            </p>
+          <div className="flex-1 min-w-0 mr-3">
+            {editing ? (
+              <>
+                <input
+                  value={draft.name}
+                  onChange={(e) => set("name", e.target.value)}
+                  style={{ ...inputStyle, fontSize: "15px", fontWeight: 600, marginBottom: 6 }}
+                  placeholder="Nom BDE"
+                  onFocus={(e) => (e.currentTarget.style.borderColor = "var(--np-purple)")}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = "var(--np-border)")}
+                />
+                <input
+                  value={draft.school}
+                  onChange={(e) => set("school", e.target.value)}
+                  style={{ ...inputStyle, fontSize: "13px" }}
+                  placeholder="École"
+                  onFocus={(e) => (e.currentTarget.style.borderColor = "var(--np-purple)")}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = "var(--np-border)")}
+                />
+              </>
+            ) : (
+              <>
+                <h2 className="text-base font-semibold truncate" style={{ color: "var(--np-text)" }}>{bde.name}</h2>
+                <p className="text-sm mt-0.5 truncate" style={{ color: "var(--np-text-muted)" }}>{bde.school}</p>
+              </>
+            )}
           </div>
-          <button
-            onClick={onClose}
-            className="ml-4 p-1.5 rounded-lg transition-colors"
-            style={{ color: "var(--np-text-muted)" }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "var(--np-surface-2)";
-              e.currentTarget.style.color = "white";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "transparent";
-              e.currentTarget.style.color = "var(--np-text-muted)";
-            }}
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+
+          <div className="flex items-center gap-1 shrink-0">
+            {!editing && (
+              <button
+                onClick={() => setEditing(true)}
+                title="Modifier"
+                className="p-1.5 rounded-lg transition-colors"
+                style={{ background: "none", border: "none", cursor: "pointer", opacity: 0.5, transition: "opacity 0.15s" }}
+                onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+                onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
+              >
+                <img src="/ecrivez.png" alt="Modifier" width={16} height={16} style={{ display: "block" }} />
+              </button>
+            )}
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-lg transition-colors"
+              style={{ color: "var(--np-text-muted)" }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "var(--np-surface-2)";
+                e.currentTarget.style.color = "white";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.color = "var(--np-text-muted)";
+              }}
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Body */}
@@ -76,63 +202,94 @@ export function BdeDetail({ bde, onClose, onStatusChange }: BdeDetailProps) {
           </div>
 
           {/* Info grid */}
-          <dl className="grid grid-cols-2 gap-x-4 gap-y-4">
-            {/* Ville */}
-            <div>
-              <dt className="text-xs font-medium uppercase tracking-wide" style={{ color: "var(--np-text-dim)" }}>Ville</dt>
-              <dd className="text-sm mt-0.5" style={{ color: "var(--np-text)" }}>{bde.city}</dd>
+          {editing ? (
+            <div className="space-y-4">
+              {[
+                { key: "city" as const, label: "Ville", placeholder: "Paris" },
+                { key: "email" as const, label: "Email", placeholder: "bde@ecole.fr" },
+                { key: "phone" as const, label: "Téléphone", placeholder: "+33 1 00 00 00 00" },
+                { key: "instagram" as const, label: "Instagram", placeholder: "@bde_ecole" },
+                { key: "website" as const, label: "Site web", placeholder: "https://bde.ecole.fr" },
+              ].map(({ key, label, placeholder }) => (
+                <div key={key}>
+                  <label
+                    className="block text-xs font-medium mb-1.5 uppercase tracking-wide"
+                    style={{ color: "var(--np-text-dim)" }}
+                  >
+                    {label}
+                  </label>
+                  <input
+                    value={draft[key]}
+                    onChange={(e) => set(key, e.target.value)}
+                    placeholder={placeholder}
+                    style={inputStyle}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = "var(--np-purple)")}
+                    onBlur={(e) => (e.currentTarget.style.borderColor = "var(--np-border)")}
+                  />
+                </div>
+              ))}
             </div>
-
-            {/* Abonnés */}
-            <div>
-              <dt className="text-xs font-medium uppercase tracking-wide" style={{ color: "var(--np-text-dim)" }}>Abonnés Instagram</dt>
-              <dd className="text-sm mt-0.5 tabular-nums" style={{ color: "var(--np-text)" }}>{bde.followers.toLocaleString("fr-FR")}</dd>
-            </div>
-
-            {/* Email */}
-            <div className="col-span-2">
-              <dt className="text-xs font-medium uppercase tracking-wide" style={{ color: "var(--np-text-dim)" }}>Email</dt>
-              <dd className="mt-0.5">
-                <a href={`mailto:${bde.email}`} className="text-sm hover:underline" style={{ color: "var(--np-purple-light)" }}>
-                  {bde.email}
-                </a>
-              </dd>
-            </div>
-
-            {/* Téléphone */}
-            {bde.phone && (
+          ) : (
+            <dl className="grid grid-cols-2 gap-x-4 gap-y-4">
               <div>
-                <dt className="text-xs font-medium uppercase tracking-wide" style={{ color: "var(--np-text-dim)" }}>Téléphone</dt>
-                <dd className="mt-0.5">
-                  <a href={`tel:${bde.phone}`} className="text-sm hover:underline" style={{ color: "var(--np-purple-light)" }}>
-                    {bde.phone}
-                  </a>
-                </dd>
+                <dt className="text-xs font-medium uppercase tracking-wide" style={{ color: "var(--np-text-dim)" }}>Ville</dt>
+                <dd className="text-sm mt-0.5" style={{ color: "var(--np-text)" }}>{bde.city}</dd>
               </div>
-            )}
 
-            {/* Instagram */}
-            <div>
-              <dt className="text-xs font-medium uppercase tracking-wide" style={{ color: "var(--np-text-dim)" }}>Instagram</dt>
-              <dd className="mt-0.5">
-                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "var(--np-purple-light)" }}>
-                  {bde.instagram}
-                </a>
-              </dd>
-            </div>
+              <div>
+                <dt className="text-xs font-medium uppercase tracking-wide" style={{ color: "var(--np-text-dim)" }}>Abonnés Instagram</dt>
+                <dd className="text-sm mt-0.5 tabular-nums" style={{ color: "var(--np-text)" }}>{bde.followers.toLocaleString("fr-FR")}</dd>
+              </div>
 
-            {/* Site web */}
-            {bde.website && (
               <div className="col-span-2">
-                <dt className="text-xs font-medium uppercase tracking-wide" style={{ color: "var(--np-text-dim)" }}>Site web</dt>
+                <dt className="text-xs font-medium uppercase tracking-wide" style={{ color: "var(--np-text-dim)" }}>Email</dt>
                 <dd className="mt-0.5">
-                  <a href={bde.website} target="_blank" rel="noopener noreferrer" className="text-sm hover:underline truncate block" style={{ color: "var(--np-purple-light)" }}>
-                    {bde.website.replace(/^https?:\/\//, "")}
-                  </a>
+                  {bde.email ? (
+                    <a href={`mailto:${bde.email}`} className="text-sm hover:underline" style={{ color: "var(--np-purple-light)" }}>
+                      {bde.email}
+                    </a>
+                  ) : (
+                    <span className="text-sm italic" style={{ color: "var(--np-text-dim)" }}>—</span>
+                  )}
                 </dd>
               </div>
-            )}
-          </dl>
+
+              {bde.phone && (
+                <div>
+                  <dt className="text-xs font-medium uppercase tracking-wide" style={{ color: "var(--np-text-dim)" }}>Téléphone</dt>
+                  <dd className="mt-0.5">
+                    <a href={`tel:${bde.phone}`} className="text-sm hover:underline" style={{ color: "var(--np-purple-light)" }}>
+                      {bde.phone}
+                    </a>
+                  </dd>
+                </div>
+              )}
+
+              <div>
+                <dt className="text-xs font-medium uppercase tracking-wide" style={{ color: "var(--np-text-dim)" }}>Instagram</dt>
+                <dd className="mt-0.5">
+                  {bde.instagram ? (
+                    <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "var(--np-purple-light)" }}>
+                      {bde.instagram}
+                    </a>
+                  ) : (
+                    <span className="text-sm italic" style={{ color: "var(--np-text-dim)" }}>—</span>
+                  )}
+                </dd>
+              </div>
+
+              {bde.website && (
+                <div className="col-span-2">
+                  <dt className="text-xs font-medium uppercase tracking-wide" style={{ color: "var(--np-text-dim)" }}>Site web</dt>
+                  <dd className="mt-0.5">
+                    <a href={bde.website} target="_blank" rel="noopener noreferrer" className="text-sm hover:underline truncate block" style={{ color: "var(--np-purple-light)" }}>
+                      {bde.website.replace(/^https?:\/\//, "")}
+                    </a>
+                  </dd>
+                </div>
+              )}
+            </dl>
+          )}
 
           <div style={{ height: 1, background: "var(--np-border)" }} />
 
@@ -175,28 +332,58 @@ export function BdeDetail({ bde, onClose, onStatusChange }: BdeDetailProps) {
           className="p-5 shrink-0 space-y-2"
           style={{ borderTop: "1px solid var(--np-border)" }}
         >
-          <button
-            onClick={() => onStatusChange(bde.id, "à contacter")}
-            disabled={bde.status === "à contacter"}
-            className="w-full py-2 text-sm font-medium rounded-lg transition-opacity disabled:opacity-30"
-            style={{
-              border: "1px solid var(--np-border)",
-              color: "var(--np-text-muted)",
-              background: "transparent",
-            }}
-            onMouseEnter={(e) => !e.currentTarget.disabled && (e.currentTarget.style.background = "var(--np-surface-2)")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
-          >
-            Marquer « à contacter »
-          </button>
-          <button
-            onClick={() => onStatusChange(bde.id, "partenariat signé")}
-            disabled={bde.status === "partenariat signé"}
-            className="w-full py-2 text-sm font-semibold rounded-lg transition-opacity disabled:opacity-30 hover:opacity-85"
-            style={{ background: "var(--np-purple)", color: "white" }}
-          >
-            Partenariat signé ✓
-          </button>
+          {editing ? (
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={cancelEdit}
+                className="flex-1 py-2 text-sm font-medium rounded-lg"
+                style={{
+                  border: "1px solid var(--np-border)",
+                  color: "var(--np-text-muted)",
+                  background: "transparent",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.background = "var(--np-surface-2)")}
+                onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+              >
+                Annuler
+              </button>
+              <button
+                type="button"
+                onClick={saveEdit}
+                disabled={saving}
+                className="flex-1 py-2 text-sm font-semibold rounded-lg disabled:opacity-50"
+                style={{ background: "var(--np-purple)", color: "#fff" }}
+              >
+                {saving ? "Sauvegarde…" : "Sauvegarder"}
+              </button>
+            </div>
+          ) : (
+            <>
+              <button
+                onClick={() => onStatusChange(bde.id, "à contacter")}
+                disabled={bde.status === "à contacter"}
+                className="w-full py-2 text-sm font-medium rounded-lg transition-opacity disabled:opacity-30"
+                style={{
+                  border: "1px solid var(--np-border)",
+                  color: "var(--np-text-muted)",
+                  background: "transparent",
+                }}
+                onMouseEnter={(e) => !e.currentTarget.disabled && (e.currentTarget.style.background = "var(--np-surface-2)")}
+                onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+              >
+                Marquer « à contacter »
+              </button>
+              <button
+                onClick={() => onStatusChange(bde.id, "partenariat signé")}
+                disabled={bde.status === "partenariat signé"}
+                className="w-full py-2 text-sm font-semibold rounded-lg transition-opacity disabled:opacity-30 hover:opacity-85"
+                style={{ background: "var(--np-purple)", color: "white" }}
+              >
+                Partenariat signé ✓
+              </button>
+            </>
+          )}
         </div>
       </aside>
     </>
