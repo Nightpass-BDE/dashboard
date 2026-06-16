@@ -69,7 +69,7 @@ export function LightbulbToggle({ isDark, onToggle }: LightbulbToggleProps) {
         viewBox="0 0 36 46"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        style={{ overflow: "visible" }}
+        style={{ overflow: "visible", transform: "scaleY(-1)" }}
       >
         <defs>
           <radialGradient id="domeGrad" cx="40%" cy="35%" r="60%">
