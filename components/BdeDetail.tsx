@@ -166,7 +166,7 @@ export function BdeDetail({ bde, onClose, onStatusChange, onBdeUpdate, startInEd
                 onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
                 onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
               >
-                <img src="/ecrivez.png" alt="Modifier" width={16} height={16} style={{ display: "block" }} />
+                <img src="/ecrivez.png" alt="Modifier" width={16} height={16} className="np-icon-edit" style={{ display: "block" }} />
               </button>
             )}
             <button

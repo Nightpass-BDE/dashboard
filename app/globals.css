@@ -94,6 +94,11 @@ body {
   transform-origin: top center;
 }
 
+/* ─── Edit icon visibility ─── */
+.np-icon-edit { filter: none; }
+[data-theme="dark"] .np-icon-edit { filter: invert(1) opacity(0.6); }
+[data-theme="dark"] .np-icon-edit:hover { filter: invert(1) opacity(1); }
+
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--np-surface); }

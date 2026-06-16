@@ -216,7 +216,7 @@ export function BdeTable({
                       onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
                       onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
                     >
-                      <img src="/ecrivez.png" alt="Modifier" width={14} height={14} style={{ display: "block" }} />
+                      <img src="/ecrivez.png" alt="Modifier" width={14} height={14} className="np-icon-edit" style={{ display: "block" }} />
                     </button>
                     <button
                       title="Voir"
