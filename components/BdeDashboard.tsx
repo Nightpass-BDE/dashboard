@@ -196,10 +196,7 @@ export function BdeDashboard({ initialBdes }: { initialBdes: Bde[] }) {
               Dashboard BDE
             </span>
 
-            {/* Hanging lightbulb */}
-            <div style={{ marginBottom: -12 }}>
-              <LightbulbToggle isDark={isDark} onToggle={() => setIsDark((d) => !d)} />
-            </div>
+            <LightbulbToggle isDark={isDark} onToggle={() => setIsDark((d) => !d)} />
           </div>
         </div>
 
