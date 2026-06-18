@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import type { Bde, BdeStatus } from "@/lib/types";
-import { ScoreBadge } from "./ScoreBadge";
 import { StatusBadge } from "./StatusBadge";
 
 interface BdeDetailProps {
@@ -191,13 +190,8 @@ export function BdeDetail({ bde, onClose, onStatusChange, onBdeUpdate, startInEd
 
         {/* Body */}
         <div className="flex-1 overflow-y-auto p-5 space-y-5">
-          {/* Score + status + instagram activity */}
+          {/* Status + instagram activity */}
           <div className="flex items-center gap-3 flex-wrap">
-            <div className="flex items-center gap-2">
-              <span className="text-xs" style={{ color: "var(--np-text-muted)" }}>Score</span>
-              <ScoreBadge score={bde.score} />
-            </div>
-            <div style={{ width: 1, height: 16, background: "var(--np-border)" }} />
             <StatusBadge status={bde.status} />
             <div style={{ width: 1, height: 16, background: "var(--np-border)" }} />
             <div className="flex items-center gap-1.5">

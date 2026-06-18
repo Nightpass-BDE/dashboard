@@ -17,6 +17,5 @@ export interface Bde {
   lastEventsDetected: { title: string; date: string }[];
   instagramActive: boolean;
   lastPostDate?: string;
-  score: number;
   status: BdeStatus;
 }

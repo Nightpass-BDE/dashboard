@@ -17,13 +17,12 @@ function rowToBde(row: PrismaBde): Bde {
     lastEventsDetected: row.lastEventsDetected as { title: string; date: string }[],
     instagramActive: row.instagramActive,
     lastPostDate: row.lastPostDate?.toISOString().split("T")[0] ?? undefined,
-    score: row.score,
     status: row.status as Bde["status"],
   };
 }
 
 export async function GET() {
-  const rows = await prisma.bde.findMany({ orderBy: { score: "desc" } });
+  const rows = await prisma.bde.findMany({ orderBy: { name: "asc" } });
   return Response.json(rows.map(rowToBde));
 }
 
@@ -43,7 +42,6 @@ export async function POST(request: Request) {
       website: body.website || null,
       followers: 0,
       lastEventsDetected: [],
-      score: 0,
       status: "à contacter",
     },
   });

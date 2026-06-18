@@ -9,7 +9,6 @@ export function exportToCsv(bdes: Bde[], filename = "bdes-export.csv") {
     "Instagram",
     "Email",
     "Abonnés",
-    "Score",
     "Statut",
     "Dernières soirées",
   ];
@@ -22,7 +21,6 @@ export function exportToCsv(bdes: Bde[], filename = "bdes-export.csv") {
     b.instagram,
     b.email,
     b.followers.toString(),
-    b.score.toString(),
     b.status,
     b.lastEventsDetected
       .map((e) => `${e.title} (${e.date})`)

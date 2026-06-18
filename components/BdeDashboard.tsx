@@ -15,8 +15,8 @@ export function BdeDashboard({ initialBdes }: { initialBdes: Bde[] }) {
   const [bdes, setBdes] = useState<Bde[]>(initialBdes);
   const [filters, setFilters] = useState({ city: "", school: "", search: "" });
   const [sort, setSort] = useState<{ key: SortKey; dir: SortDir }>({
-    key: "score",
-    dir: "desc",
+    key: "name",
+    dir: "asc",
   });
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [detailBde, setDetailBde] = useState<Bde | null>(null);
@@ -83,7 +83,7 @@ export function BdeDashboard({ initialBdes }: { initialBdes: Bde[] }) {
     setSort((prev) =>
       prev.key === key
         ? { key, dir: prev.dir === "asc" ? "desc" : "asc" }
-        : { key, dir: key === "score" || key === "followers" ? "desc" : "asc" }
+        : { key, dir: key === "followers" ? "desc" : "asc" }
     );
   }
 

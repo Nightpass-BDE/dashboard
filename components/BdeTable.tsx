@@ -1,9 +1,8 @@
 "use client";
 
 import type { Bde, BdeStatus } from "@/lib/types";
-import { ScoreBadge } from "./ScoreBadge";
 
-export type SortKey = "name" | "school" | "city" | "followers" | "score" | "status";
+export type SortKey = "name" | "school" | "city" | "followers" | "status";
 export type SortDir = "asc" | "desc";
 
 interface BdeTableProps {
@@ -117,15 +116,6 @@ export function BdeTable({
             </th>
 
             <th
-              style={{ ...thBase, textAlign: "center" }}
-              onClick={() => onSort("score")}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--np-text)")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--np-text-muted)")}
-            >
-              Score <SortIcon active={sort.key === "score"} dir={sort.dir} />
-            </th>
-
-            <th
               style={thBase}
               onClick={() => onSort("status")}
               onMouseEnter={(e) => (e.currentTarget.style.color = "var(--np-text)")}
@@ -183,10 +173,6 @@ export function BdeTable({
                   {bde.followers.toLocaleString("fr-FR")}
                 </td>
 
-                <td style={{ ...td, textAlign: "center", cursor: "pointer" }} onClick={() => onRowClick(bde)}>
-                  <ScoreBadge score={bde.score} />
-                </td>
-
                 <td style={td} onClick={(e) => e.stopPropagation()}>
                   <select
                     value={bde.status}
@@ -240,7 +226,7 @@ export function BdeTable({
 
           {bdes.length === 0 && (
             <tr>
-              <td colSpan={8} style={{ ...td, textAlign: "center", padding: "48px 12px", color: "var(--np-text-dim)" }}>
+              <td colSpan={7} style={{ ...td, textAlign: "center", padding: "48px 12px", color: "var(--np-text-dim)" }}>
                 Aucun BDE ne correspond aux filtres sélectionnés
               </td>
             </tr>

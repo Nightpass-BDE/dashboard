@@ -20,7 +20,6 @@ for (const bde of data) {
       website: (bde as { website?: string }).website ?? null,
       followers: bde.followers,
       lastEventsDetected: bde.lastEventsDetected,
-      score: bde.score,
       status: bde.status,
     },
   });

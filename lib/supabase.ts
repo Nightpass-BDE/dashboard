@@ -24,7 +24,6 @@ export function rowToBde(row: BdeRow): Bde {
     lastEventsDetected: row.last_events_detected ?? [],
     instagramActive: row.instagramActive ?? false,
     lastPostDate: row.lastPostDate ?? undefined,
-    score: row.score,
     status: row.status,
   };
 }

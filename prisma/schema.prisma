@@ -20,7 +20,6 @@ model Bde {
   lastEventsDetected Json     @default("[]") @map("last_events_detected")
   lastPostDate       DateTime? @map("last_post_date")
   instagramActive    Boolean  @default(false) @map("instagram_active")
-  score              Int      @default(0)
   status             String   @default("à contacter")
   createdAt          DateTime @default(now()) @map("created_at")
   updatedAt          DateTime @updatedAt @map("updated_at")

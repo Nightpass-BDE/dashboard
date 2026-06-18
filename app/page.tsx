@@ -20,12 +20,11 @@ function rowToBde(row: NonNullable<PrismaBde>): Bde {
     lastEventsDetected: row.lastEventsDetected as { title: string; date: string }[],
     instagramActive: row.instagramActive,
     lastPostDate: row.lastPostDate?.toISOString().split("T")[0] ?? undefined,
-    score: row.score,
     status: row.status as Bde["status"],
   };
 }
 
 export default async function Page() {
-  const rows = await prisma.bde.findMany({ orderBy: { score: "desc" } });
+  const rows = await prisma.bde.findMany({ orderBy: { name: "asc" } });
   return <BdeDashboard initialBdes={rows.map(rowToBde)} />;
 }
