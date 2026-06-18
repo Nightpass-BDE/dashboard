@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { prisma } from "@/lib/db";
 import { BdeDashboard } from "@/components/BdeDashboard";
 import type { Bde } from "@/lib/types";
